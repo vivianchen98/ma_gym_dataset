@@ -1,6 +1,6 @@
 import argparse
 import gym
-from util import record, prune_and_cap_trajs
+from util import record
 from ma_gym.wrappers import Monitor
 
 if __name__ == '__main__':
@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     trajs = []
     env = gym.make('ma_gym:' + args.env)
-    env = Monitor(env, directory='recordings/' + args.env + '/monitor', force=True)
+    env = Monitor(env, directory=args.env + '/monitor', force=True)
 
     for ep_i in range(args.episodes):
         traj = []
@@ -37,9 +37,10 @@ if __name__ == '__main__':
     env.close()
 
     trajs = {k: v for k, v in enumerate(trajs)}
-    trajs_capped, max_horizon = prune_and_cap_trajs(trajs)
-    
-    # record all data
-    record([env, trajs, trajs_capped, max_horizon], directory='recordings/'+args.env, label='data_'+str(args.episodes))
+    # trajs_capped, max_horizon = prune_and_cap_trajs(trajs)
+    # hist_all, hist_zero, hist_trans = compute_hist(trajs_capped, env.n_agents, max_horizon)
 
+    # record all data
+    record([env, trajs], directory=args.env, label='random_data_'+str(args.episodes))
+    print("\nSaved python data to `data/"+args.env+'random_data_'+str(args.episodes)+".pickle`")
     
