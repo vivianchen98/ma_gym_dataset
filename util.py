@@ -3,10 +3,10 @@ import pickle, itertools
 import numpy as np
 
 def record(data, directory="data/", label="data"):
-    # if not os.path.exists("data"): os.mkdir("data")
     if not os.path.exists(directory): os.mkdir(directory)
     with open(os.path.join(directory, label+'.pickle'), 'wb') as handle:
         pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    print("Saved data to `"+directory+'/'+label+'.pickle`')
 
 
 def load(directory):
@@ -35,15 +35,15 @@ def prune_and_cap_trajs(trajs):
     return trajs_capped, max_horizon
 
 
-def compute_hist(trajs_capped, n_agents, max_horizon):
+def compute_hist(trajs_capped, n_players, max_horizon):
     # print("Computed histograms of joint probs, init state dist, transition.")
 
     # compute hist for reference joint probability dist of state-action pairs
     hist_all = {}
-    for i in range(n_agents):
+    for i in range(n_players):
         hist_t = {}
         for t in range(max_horizon):
-            list = [(trajs_capped[ep][t]['action_n'][i], trajs_capped[ep][t]['obs_n'][i]) for ep in range(len(trajs_capped))]
+            list = [(trajs_capped[ep][t]['action_n'][i], trajs_capped[ep][t]['pos_n'][i]) for ep in range(len(trajs_capped))]
             freq = {}
             for l in list:
                 if l not in freq.keys():
@@ -56,11 +56,11 @@ def compute_hist(trajs_capped, n_agents, max_horizon):
     
     # compute initial state distribution
     hist_zero = {}
-    for i in range(n_agents):
+    for i in range(n_players):
         total_i = 0
         count_zero_i = {}
         for ep in range(len(trajs_capped)):
-            s = trajs_capped[ep][0]['obs_n'][i]
+            s = trajs_capped[ep][0]['pos_n'][i]
             if s not in count_zero_i.keys():
                 count_zero_i[s] = 1
             else:
@@ -70,14 +70,14 @@ def compute_hist(trajs_capped, n_agents, max_horizon):
 
     # compute transition probabilities
     hist_trans={}
-    for i in range(n_agents):
+    for i in range(n_players):
         count_sas = {}
         count_sa = {}
         for ep in range(len(trajs_capped)):
             for t in range(max_horizon-1):
-                s = trajs_capped[ep][t]['obs_n'][i]
+                s = trajs_capped[ep][t]['pos_n'][i]
                 a = trajs_capped[ep][t]['action_n'][i]
-                s_next = trajs_capped[ep][t+1]['obs_n'][i]
+                s_next = trajs_capped[ep][t+1]['pos_n'][i]
 
                 if (s,a) not in count_sa.keys():
                     count_sa[(s,a)] = 1
