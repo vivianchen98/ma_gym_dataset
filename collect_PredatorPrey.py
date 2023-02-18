@@ -46,7 +46,7 @@ if __name__ == '__main__':
         ep_reward = 0
         env.seed(ep_i)
         obs_n = env.reset()
-        env.render()
+        # env.render()
 
         while not all(done_n):
             old_prey_pos = env.prey_pos
@@ -62,7 +62,7 @@ if __name__ == '__main__':
                       "action_n": action_n + [compute_prey_action(old_prey_pos[i], env.prey_pos[i]) for i in range(env.n_preys)]}]
 
             ep_reward += sum(reward_n)
-            env.render()
+            # env.render()
 
         print('Episode #{} Reward: {}'.format(ep_i, ep_reward))
         traj = {k: v for k, v in enumerate(traj)}

@@ -2,6 +2,7 @@ import argparse
 import gym
 from util import record
 from ma_gym.wrappers import Monitor
+from datetime import datetime
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Random Agent for ma-gym')
@@ -31,6 +32,7 @@ if __name__ == '__main__':
         while not all(done_n):
             action_n = [int(_) for _ in input('Action:')]
             traj += [{"obs_n": [tuple(obs_n[i][0:2]) for i in range(env.n_agents)], "action_n": action_n}]
+            traj += 
             obs_n, reward_n, done_n, info = env.step(action_n)
             ep_reward += sum(reward_n)
             env.render()
@@ -46,5 +48,5 @@ if __name__ == '__main__':
     # hist_all, hist_zero, hist_trans = compute_hist(trajs_capped, env.n_agents, max_horizon)
 
     # record all data
-    record([env, trajs], directory='data/'+args.env, label='interactive_data_'+str(args.episodes))
-    print("\nSaved python data to `data/"+args.env+'interactive_data_'+str(args.episodes)+".pickle`")
+    record([env, trajs], directory='data/'+args.env, label='interactive_data_'+str(datetime.now()))
+    print("\nSaved python data to `data/"+args.env+'interactive_data_'+str(datetime.now())+".pickle`")
