@@ -17,8 +17,9 @@ def load(directory):
 
 def prune_and_cap_trajs(trajs):
     # prune trajs to be all long enough
-    long_enough = np.percentile([len(trajs[i]) for i in range(len(trajs))], 10)
-    print("traj of length "+str(long_enough)+" is long enough")
+    print('trajs:', [len(trajs[i]) for i in range(len(trajs))])
+    long_enough = np.percentile([len(trajs[i]) for i in range(len(trajs))], 50)
+    print("50th precentile: "+str(long_enough))
     trajs_pruned = []
     for i in range(len(trajs)):
         if len(trajs[i]) >= long_enough:
@@ -26,10 +27,11 @@ def prune_and_cap_trajs(trajs):
     trajs_pruned = {k: v for k, v in enumerate(trajs_pruned)}
 
     # cap trajs by shortest lengths
-    # print("lengths of pruned trajs:", [len(trajs_pruned[i]) for i in range(len(trajs_pruned))])
     max_horizon = min([len(trajs_pruned[i]) for i in range(len(trajs_pruned))])
-    print("Capped trajs to horizon <=", max_horizon)
+    # print("Capped trajs to horizon <=", max_horizon)
     trajs_capped = {k: v for k, v in enumerate([dict(itertools.islice(trajs_pruned[i].items(),max_horizon)) for i in range(len(trajs_pruned))])}
+    print('trajs_capped:', [len(trajs_capped[i]) for i in range(len(trajs_capped))])
+
     print("A total of "+str(len(trajs_capped))+" useful trajs!")
 
     return trajs_capped, max_horizon
@@ -44,6 +46,7 @@ def compute_hist(trajs_capped, n_players, max_horizon):
         hist_t = {}
         for t in range(max_horizon):
             list = [(trajs_capped[ep][t]['action_n'][i], trajs_capped[ep][t]['pos_n'][i]) for ep in range(len(trajs_capped))]
+
             freq = {}
             for l in list:
                 if l not in freq.keys():

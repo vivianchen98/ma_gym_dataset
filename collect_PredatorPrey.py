@@ -46,7 +46,7 @@ if __name__ == '__main__':
         ep_reward = 0
         env.seed(ep_i)
         obs_n = env.reset()
-        # env.render()
+        env.render()
 
         while not all(done_n):
             old_prey_pos = env.prey_pos
@@ -54,7 +54,16 @@ if __name__ == '__main__':
             if args.type == 'random':
                 action_n = env.action_space.sample()
             elif args.type == 'interactive':
-                action_n = [int(_) for _ in input('Action:')]
+                action_n = []
+                while True:
+                    input_n = [int(_) for _ in input('Action:')]
+                    if len(input_n) != 2:
+                        print("Input not of size 2! Try again.")
+                    elif input_n[0] not in range(env.action_space[0].n) or input_n[1] not in range(env.action_space[1].n):
+                        print("Please select from: ↓(0), ←(1), ↑(2), →(3), NOOP(4), try again.")
+                    else:
+                        action_n = input_n
+                        break
 
             obs_n, reward_n, done_n, info = env.step(action_n)
 
@@ -62,7 +71,7 @@ if __name__ == '__main__':
                       "action_n": action_n + [compute_prey_action(old_prey_pos[i], env.prey_pos[i]) for i in range(env.n_preys)]}]
 
             ep_reward += sum(reward_n)
-            # env.render()
+            env.render()
 
         print('Episode #{} Reward: {}'.format(ep_i, ep_reward))
         traj = {k: v for k, v in enumerate(traj)}
