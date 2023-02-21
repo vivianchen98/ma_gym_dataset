@@ -17,9 +17,9 @@ Dataset and Scripts for various types of trajectories from multi-agent gym envir
 
 
 ## 2. Trajectory Generation
-Collect trajectories by
-```shell
-ma_gym_dataset$ python3 collect_PredatorPrey.py --env PredatorPrey5x5-v1 --type [interactive/random/vdn/qmix/idqn/maddpg] --collect-episodes 10
+To accomodate different configurations in environments, you need to write corresponding collection script for each type of environment. The one for `PredatorPrey` is writen and you can collect trajectories by
+```console
+foo@bar:.../ma_gym_dataset$ python3 collect_PredatorPrey.py --env PredatorPrey5x5-v1 --type [interactive/random/vdn/qmix/idqn/maddpg] --collect-episodes 10
 ```
 and when you finish all episodes, you should see your trajectory stored in `raw_data/[env]/[type]_[collect_episodes]_[current_datetime].pickle`
 
@@ -57,8 +57,8 @@ elif type == 'maddpg':
 ```
 
 If you want to run these algorithms on new environments, please `cd scripts/` and call algorithms there, e.g.,
-```shell
-ma_gym_dataset/scripts$ python3 --env-name ma_gym:PredatorPrey5x5-v1 --seed 1 --max-episodes 15000
+```console
+foo@bar:.../ma_gym_dataset/scripts$ python3 --env-name ma_gym:PredatorPrey5x5-v1 --seed 1 --max-episodes 15000
 ```
 `wandb` is on by default, you can disable it by editing `USE_WANDB = False` in the corresponding algorithm files. The resulting models will be saved in directory `models/`.
 
@@ -66,8 +66,8 @@ ma_gym_dataset/scripts$ python3 --env-name ma_gym:PredatorPrey5x5-v1 --seed 1 --
 In `util.py`, functions are defined to prune trajectories not long enough (which is current set to be the 50th percentile of lengths of trajs), and cap the remaining trajs longer than that, thus resulting in a list of trajectories with the same length. There is also a function to compute the histogram of probability distributions of state-action pairs in `hist_all`, the initial states in `hist_zero`, and state transition in `hist_trans`. All of them are in the format of dictionaries, and can be used to construct approximated policy, initial state distribution, and transition functions.
 
 You can call processing for a particular type, e.g.,
-```shell
-ma_gym_dataset$ python3 process.py --type vdn
+```console
+foo@bar:.../ma_gym_dataset$ python3 process.py --type vdn
 ```
 and it will concatenate all trajectories of the requested type in the same environment, and store them in a newly created folder called `processed_data`. You should see something like the following in terminal:
 ```
@@ -94,7 +94,7 @@ No data needed to process!
 | ma_gym:PredatorPrey5x5-v0 | interactive | 100 |
 | ma_gym:PredatorPrey5x5-v1 | vdn | 500 |
 
-Only trajectories from `vdn` are collected for `PredatorPrey5x5-v1` because it performs the best among all marl algorithms in the environment. Check out [this wandb report]() to learn more.
+Only trajectories from `vdn` are collected for `PredatorPrey5x5-v1` because it performs the best among all marl algorithms in the environment. Check out [this wandb report](https://api.wandb.ai/links/shenghui/q1xutvrs) to learn more.
 
 
 ## 5. Acknowledgement
