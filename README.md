@@ -1,7 +1,6 @@
 # MA GYM DATASET
 Dataset and Scripts for various types of trajectories from multi-agent gym environments, processed data can be used to reconstruct approximated policy, initial state distribution, and transition functions for Markov Games.
 
-- [MA GYM DATASET](#ma-gym-dataset)
   - [1. Installation](#1-installation)
   - [2. Trajectory Generation](#2-trajectory-generation)
     - [2.1. Random actions](#21-random-actions)
