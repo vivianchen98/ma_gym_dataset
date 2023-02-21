@@ -1,0 +1,3 @@
+/home/vivianchen/miniconda3/lib/python3.10/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+Saved model q.state_dict() to ../models/ma_gym:Checkers-v0_maddpg_10.pth

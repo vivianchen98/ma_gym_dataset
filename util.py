@@ -17,9 +17,9 @@ def load(directory):
 
 def prune_and_cap_trajs(trajs):
     # prune trajs to be all long enough
-    print('trajs:', [len(trajs[i]) for i in range(len(trajs))])
+    # print('trajs:', [len(trajs[i]) for i in range(len(trajs))])
     long_enough = np.percentile([len(trajs[i]) for i in range(len(trajs))], 50)
-    print("50th precentile: "+str(long_enough))
+    print("50th precentile: "+str(int(long_enough)))
     trajs_pruned = []
     for i in range(len(trajs)):
         if len(trajs[i]) >= long_enough:
@@ -30,7 +30,7 @@ def prune_and_cap_trajs(trajs):
     max_horizon = min([len(trajs_pruned[i]) for i in range(len(trajs_pruned))])
     # print("Capped trajs to horizon <=", max_horizon)
     trajs_capped = {k: v for k, v in enumerate([dict(itertools.islice(trajs_pruned[i].items(),max_horizon)) for i in range(len(trajs_pruned))])}
-    print('trajs_capped:', [len(trajs_capped[i]) for i in range(len(trajs_capped))])
+    # print('trajs_capped:', [len(trajs_capped[i]) for i in range(len(trajs_capped))])
 
     print("A total of "+str(len(trajs_capped))+" useful trajs!")
 
