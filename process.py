@@ -4,9 +4,9 @@ from util import load, prune_and_cap_trajs, compute_hist, record
 
 # python3 process.py --type vdn
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Random Agent for ma-gym')
-    parser.add_argument('--type', default='interactive',
-                        help='type (default: %(default)s)')                        
+    parser = argparse.ArgumentParser(description='Process trajs for a specific type')
+    parser.add_argument('--type', default='random',
+                        help='[random/interactive/vdn/qmix/idqn/maddpg] (default: %(default)s)')                        
     args = parser.parse_args()
 
     envs = os.listdir("raw_data")

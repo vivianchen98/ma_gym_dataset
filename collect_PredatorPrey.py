@@ -127,12 +127,14 @@ def collect_algo(env, collect_episodes, model, type):
 # python3 collect_PredatorPrey.py --env PredatorPrey5x5-v1 --type [interactive/random/vdn/qmix/idqn/maddpg] --collect-episodes 10
 if __name__ == '__main__':
     # Lets gather arguments
-    parser = argparse.ArgumentParser(description='Random Agent for ma-gym')
+    parser = argparse.ArgumentParser(description='Collect trajs')
     parser.add_argument('--env-name', default='ma_gym:PredatorPrey5x5-v1',
                         help='Name of the environment (default: %(default)s)')
-    parser.add_argument('--type', required=False, default='vdn', help='interactive/random/vdn/qmix/idqn/maddpg')
-    parser.add_argument('--max-episodes', type=int, default=15000, required=False)
-    parser.add_argument('--collect-episodes', type=int, default=100, required=False)
+    parser.add_argument('--type', default='random',
+                        help='[random/interactive/vdn/qmix/idqn/maddpg] (default: %(default)s)')    
+    parser.add_argument('--max-episodes', type=int, default=15000, required=False, help='(default: %(default)s)')
+    parser.add_argument('--collect-episodes', type=int, default=100, required=False,
+                        help='Number of episode to collect (default: %(default)s)')   
 
     # Process arguments
     args = parser.parse_args()
