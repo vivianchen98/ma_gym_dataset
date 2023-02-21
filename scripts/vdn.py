@@ -8,7 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
-USE_WANDB = False  # if enabled, logs data on wandb server
+USE_WANDB = True  # if enabled, logs data on wandb server
 
 
 class ReplayBuffer:
