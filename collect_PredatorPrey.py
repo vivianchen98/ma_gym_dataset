@@ -1,4 +1,4 @@
-import argparse, os
+import argparse, os, random
 from datetime import datetime
 import gym
 import torch
@@ -93,6 +93,7 @@ def collect_algo(env, collect_episodes, model, type):
         traj = []
         done_n = [False for _ in range(env.n_agents)]
         ep_reward = 0
+        env.seed(random.randrange(1000))
         obs_n = env.reset()
         # env.render()
 
@@ -124,7 +125,7 @@ def collect_algo(env, collect_episodes, model, type):
     return trajs
 
 
-# python3 collect_PredatorPrey.py --env PredatorPrey5x5-v1 --type [interactive/random/vdn/qmix/idqn/maddpg] --collect-episodes 10
+# python3 collect_PredatorPrey.py --env ma_gym:PredatorPrey5x5-v1 --type [interactive/random/vdn/qmix/idqn/maddpg] --collect-episodes 10
 if __name__ == '__main__':
     # Lets gather arguments
     parser = argparse.ArgumentParser(description='Collect trajs')
